@@ -1,0 +1,5 @@
+{
+  "name": "token-diet",
+  "version": "0.1.0",
+  "description": "Terse output style and Salesforce/ticketing directives to reduce token consumption. Suppresses draft echoes when human-in-the-loop review happens in the destination system."
+}
