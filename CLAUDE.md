@@ -1,43 +1,41 @@
 # token-diet directives
 
-These directives are loaded each turn and apply on top of whatever output style is active. Designed to reduce token usage for Salesforce / ticketing workflows where the human reviews drafts in the destination system.
+These directives are loaded each turn regardless of output style. They cover Salesforce / ticketing specifics that a general-purpose output style can't know. General terseness (response shape, tool-use hygiene, when to break terseness) lives in `output-styles/terse.md` — activate it each session; these directives don't repeat it.
 
-## Salesforce / ticketing rule
+## Salesforce write rule (drafts and living summaries)
 
-When a tool or skill writes to Salesforce, Jira, ServiceNow, Zendesk, or any external case/ticket system — including case comments, living summaries, opportunity updates, knowledge articles, internal notes:
+When a skill or tool **writes** to Salesforce — specifically private draft emails, case comments, or living summary field updates (Problem, Cause, Validation, Solution):
 
 - **Do NOT echo the drafted content into the console.**
-- **Confirm with a one-line reference**: object type + ID + action.
-- The user reviews the draft in the destination system, not here.
+- **Confirm with a one-line reference**: object type + case number + action.
+- The user reviews the draft in Salesforce, not here.
 
 Good:
 
 > Living summary updated on case 00123456.
 
-> Draft comment staged on INC0045678 — open in ServiceNow to review.
+> Draft email staged on case 00123456 — review in Salesforce to send.
 
 Bad:
 
-> I've updated the living summary. Here's the full content for your review: [200 lines of content that's already in Salesforce]
+> I've updated the living summary. Here's the full content for your review: [content that's already in Salesforce]
 
-If the tool returned the draft body, treat that as confirmation of success — do not repeat it. If the tool returned an error or partial result, report the relevant fragment only.
+If the tool returned the draft body as confirmation of success — do not repeat it. If the tool returned an error or partial result, report the relevant fragment only.
 
-## Tool hygiene
+## Salesforce read rule (investigation pulls)
 
-- After editing a file, do not re-read it to verify. Edit raises on failure.
-- After writing to an external system, do not fetch it back to verify unless the user asked.
-- Never re-run a command just to "check" — only re-run when a real signal calls for it.
-- Do not paste long tool outputs back into prose. Reference them.
+When a skill pulls data **from** Salesforce to investigate a case — email history, case metadata, attachments, org details — do not dump the raw API output into prose. The skill is responsible for presenting the result. Reference counts or key fields only if a summary is needed.
 
-## Response shape
+## sfdc-aifind output rule
 
-- Fragments over sentences for confirmations.
-- One sentence over a paragraph for explanations.
-- No headers for short answers.
-- No closing summary at end of turn — diffs and tool calls are visible.
+After `sfdc-aifind` completes — whether run inline via the Skill tool or as a background subagent via the Agent tool — confirm with **one line only**:
 
-## When to override these rules
+> aifind complete — Case XXXXXXXX. Report at `downloads/case-XXXXXXXX/aifind_report.md`.
 
-- User explicitly asks for verbose output, a recap, or a full review of a draft.
-- A destructive or hard-to-reverse action is about to happen.
-- A real error or ambiguity needs the user's input.
+**Do not echo the report body, re-summarize findings, or produce a "Case Summary" block.** The report is saved to file; the engineer reads it there. This overrides any "display inline" instruction in the skill's own SKILL.md.
+
+If the file write failed (permissions denied), add one sentence: "File write was blocked — full report is in the subagent output above." Nothing more.
+
+## Jira and external ticket generation rule
+
+Jira issues, Confluence pages, and other tickets with no pre-creation review step in their own system are **not** covered by the silent-confirmation rule in `terse.md` Mode 1 — that rule is for systems where the human already reviews the write in its destination (Salesforce drafts, case comments). For Jira/Confluence: **always show the full generated content for user review before creating.** These are not auto-committed; the user must verify before the record exists. After creation, confirm with one line as usual.
