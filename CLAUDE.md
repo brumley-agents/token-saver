@@ -1,4 +1,4 @@
-# token-diet directives
+# token-saver directives
 
 These directives are loaded each turn regardless of output style. They cover Salesforce / ticketing specifics that a general-purpose output style can't know. General terseness (response shape, tool-use hygiene, when to break terseness) lives in `output-styles/terse.md` — activate it each session; these directives don't repeat it.
 

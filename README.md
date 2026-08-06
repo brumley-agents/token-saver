@@ -1,4 +1,4 @@
-# token-diet
+# token-saver
 
 Claude Code plugin to reduce token consumption. Designed for Salesforce / ticketing workflows where drafts are reviewed in the destination system, not in the console.
 
@@ -13,13 +13,13 @@ Claude Code plugin to reduce token consumption. Designed for Salesforce / ticket
 1. Clone this repo somewhere stable:
 
    ```powershell
-   git clone <your-remote-url> $env:USERPROFILE\token-diet
+   git clone <your-remote-url> $env:USERPROFILE\token-saver
    ```
 
 2. Install as a plugin from Claude Code:
 
    ```
-   /plugin install C:\Users\<you>\token-diet
+   /plugin install C:\Users\<you>\token-saver
    ```
 
 3. Activate the terse output style each session (or set it as default in `~/.claude/settings.json`):
