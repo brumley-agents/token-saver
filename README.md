@@ -6,7 +6,7 @@ Claude Code plugin to reduce token consumption. Designed for Salesforce / ticket
 
 - **Terse output style** — no preambles, no end-of-turn summaries, no progress narration, no draft echoes.
 - **Salesforce / ticketing directive** — when a tool writes to SFDC (or any external case/ticket system), confirm with a one-line reference instead of pasting the draft back.
-- **Tool hygiene** — no re-reading files after edits, no "let me verify" passes.
+- **Tool hygiene** — no speculative re-checks, no pasting raw tool output back into prose, prefer Edit over Write.
 
 ## Install at work (Windows)
 
@@ -35,6 +35,24 @@ Claude Code plugin to reduce token consumption. Designed for Salesforce / ticket
    ```
 
    If you already have a `~/.claude/CLAUDE.md`, append the contents instead of overwriting.
+
+## Measured savings
+
+Numbers below are pulled from real files on disk, not estimated — using ~4 chars/token as the conversion.
+
+**Fixed cost per session:** `CLAUDE.md` (2,751 bytes) + `output-styles/terse.md` (3,187 bytes) ≈ 1,480 tokens. This loads into context every turn (cached after the first turn in a session via prompt caching, so it's a one-time hit per session, not a per-turn one).
+
+**Per-invocation savings**, from real case artifacts this plugin's rules suppress from being echoed:
+
+| Suppressed content | Size on disk | ≈ tokens saved |
+|---|---|---|
+| Living summary echo | 2,097 bytes | ~520 |
+| aifind report echo (typical case) | 4,372 bytes | ~1,090 |
+| aifind report echo (large case) | 12,237 bytes | ~3,060 |
+
+A single suppressed aifind report echo pays for the entire fixed cost of loading both directive files for the session — in one turn. That's before counting anything `terse.md` saves across the rest of the session (no preambles, no closers, no progress narration, no end-of-turn recaps).
+
+**What this doesn't cover:** these are content-size savings confirmed against real artifacts, not a transcript-verified study of whether every skill obeys the directive on every turn. If a specific skill's own `SKILL.md` overrides it and still echoes content, see Tuning below.
 
 ## Verifying it's working
 
