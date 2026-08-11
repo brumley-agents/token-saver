@@ -39,7 +39,7 @@ The root `CLAUDE.md` in this repo is **not** loaded by the plugin system (Claude
 
 Numbers below are pulled from real files on disk, not estimated — using ~4 chars/token as the conversion.
 
-**Fixed cost per session:** `CLAUDE.md` (2,751 bytes) + `output-styles/terse.md` (3,187 bytes) ≈ 1,480 tokens. This loads into context every turn (cached after the first turn in a session via prompt caching, so it's a one-time hit per session, not a per-turn one).
+**Fixed cost per session:** `hooks/sfdc-rules.md` (2,751 bytes) + `output-styles/terse.md` (3,187 bytes) ≈ 1,480 tokens. This loads into context every turn (cached after the first turn in a session via prompt caching, so it's a one-time hit per session, not a per-turn one).
 
 **Per-invocation savings**, from real case artifacts this plugin's rules suppress from being echoed:
 
@@ -64,7 +64,7 @@ After activation, you should see:
 ## Tuning
 
 - If responses feel **too terse** (e.g. you can't tell what changed without reading the diff), edit `output-styles/terse.md` and soften the "no end-of-turn summary" rule.
-- If a specific skill still echoes drafts despite the directive, that skill's own `SKILL.md` is overriding. You can either edit that skill directly or add a more specific rule in `CLAUDE.md`.
+- If a specific skill still echoes drafts despite the directive, that skill's own `SKILL.md` is overriding. You can either edit that skill directly or add a more specific rule in `hooks/sfdc-rules.md`.
 
 ## What's intentionally NOT in v1
 
