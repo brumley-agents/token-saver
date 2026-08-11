@@ -1,5 +1,17 @@
 {
   "name": "token-saver",
-  "version": "0.1.0",
-  "description": "Terse output style and Salesforce/ticketing directives to reduce token consumption. Suppresses draft echoes when human-in-the-loop review happens in the destination system."
+  "version": "0.2.0",
+  "description": "Terse output style and Salesforce/ticketing directives to reduce token consumption. Suppresses draft echoes when human-in-the-loop review happens in the destination system.",
+  "author": {
+    "name": "Andrew Brumley",
+    "email": "afbrumley@gmail.com"
+  },
+  "homepage": "https://github.com/brumley-agents/token-saver",
+  "repository": "https://github.com/brumley-agents/token-saver",
+  "keywords": [
+    "tokens",
+    "cost-control",
+    "salesforce",
+    "output-style"
+  ]
 }

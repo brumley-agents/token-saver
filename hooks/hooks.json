@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import json,pathlib;print(json.dumps({'hookSpecificOutput':{'hookEventName':'SessionStart','additionalContext':pathlib.Path('${CLAUDE_PLUGIN_ROOT}/hooks/sfdc-rules.md').read_text()}}))\""
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "token-saver",
+  "owner": {
+    "name": "Andrew Brumley",
+    "email": "afbrumley@gmail.com",
+    "url": "https://github.com/brumley-agents"
+  },
+  "plugins": [
+    {
+      "name": "token-saver",
+      "source": "./",
+      "description": "Terse output style and Salesforce/ticketing directives to reduce token consumption. Suppresses draft echoes when human-in-the-loop review happens in the destination system."
+    }
+  ]
+}

@@ -8,33 +8,32 @@ Claude Code plugin to reduce token consumption. Designed for Salesforce / ticket
 - **Salesforce / ticketing directive** — when a tool writes to SFDC (or any external case/ticket system), confirm with a one-line reference instead of pasting the draft back.
 - **Tool hygiene** — no speculative re-checks, no pasting raw tool output back into prose, prefer Edit over Write.
 
-## Install at work (Windows)
+## Install
 
-1. Clone this repo somewhere stable:
+This repo is a self-hosted plugin marketplace (one plugin: itself). From Claude Code:
 
-   ```powershell
-   git clone <your-remote-url> $env:USERPROFILE\token-saver
-   ```
+```
+/plugin marketplace add brumley-agents/token-saver
+/plugin install token-saver@token-saver
+```
 
-2. Install as a plugin from Claude Code:
+That's it — no manual file copying. The Salesforce/ticketing directive loads automatically via a `SessionStart` hook (`hooks/hooks.json` + `hooks/sfdc-rules.md`), and the terse output style is discovered automatically from `output-styles/terse.md`.
 
-   ```
-   /plugin install C:\Users\<you>\token-saver
-   ```
+The terse style isn't on by default — it's deliberately scoped that way, since it changes *all* responses, not just the Salesforce write path. Turn it on per-session with:
 
-3. Activate the terse output style each session (or set it as default in `~/.claude/settings.json`):
+```
+/output-style terse
+```
 
-   ```
-   /output-style terse
-   ```
+or set it as your default in `~/.claude/settings.json`:
 
-4. (Optional, recommended) Copy `CLAUDE.md` to `~/.claude/CLAUDE.md` so the directives apply globally, not only when working inside this repo:
+```json
+{ "outputStyle": "terse" }
+```
 
-   ```powershell
-   Copy-Item .\CLAUDE.md $env:USERPROFILE\.claude\CLAUDE.md
-   ```
+### Note on `CLAUDE.md`
 
-   If you already have a `~/.claude/CLAUDE.md`, append the contents instead of overwriting.
+The root `CLAUDE.md` in this repo is **not** loaded by the plugin system (Claude Code plugins don't auto-load a root `CLAUDE.md` — only skills/agents/hooks/output-styles). It's kept here only for reference and for anyone who prefers the old manual-import path (`@` importing it directly from `~/.claude/CLAUDE.md`). `hooks/sfdc-rules.md` is the canonical, always-loaded copy once this is installed as a plugin — keep the two in sync if you edit the directive.
 
 ## Measured savings
 
